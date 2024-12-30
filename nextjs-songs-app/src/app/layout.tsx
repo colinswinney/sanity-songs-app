@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SanityLive } from "@/sanity/live";
-import "./globals.css";
+import "./styles/index.css";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/consts";
 
 export const metadata: Metadata = {
