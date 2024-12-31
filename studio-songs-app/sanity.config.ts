@@ -2,11 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-
-// const { theme } = (await import(
-//   // @ts-expect-error -- TODO setup themer.d.ts to get correct typings
-//   'https://themer.sanity.build/api/hues?primary=663399'
-// )) as {theme: import('sanity').StudioTheme}
+import {defaultDocumentNode} from './structure/defaultDocumentNode'
 
 export default defineConfig({
 	name: 'default',
@@ -15,11 +11,9 @@ export default defineConfig({
 	projectId: 'llxgttbw',
 	dataset: 'production',
 
-	plugins: [structureTool(), visionTool()],
+	plugins: [structureTool({defaultDocumentNode}), visionTool()],
 
 	schema: {
 		types: schemaTypes,
 	},
-
-	// theme,
 })

@@ -326,6 +326,99 @@
     }
   },
   {
+    "name": "originalKey",
+    "type": "type",
+    "value": {
+      "type": "union",
+      "of": [
+        {
+          "type": "string",
+          "value": "Cb"
+        },
+        {
+          "type": "string",
+          "value": "C"
+        },
+        {
+          "type": "string",
+          "value": "C#"
+        },
+        {
+          "type": "string",
+          "value": "Db"
+        },
+        {
+          "type": "string",
+          "value": "D"
+        },
+        {
+          "type": "string",
+          "value": "D#"
+        },
+        {
+          "type": "string",
+          "value": "Eb"
+        },
+        {
+          "type": "string",
+          "value": "E"
+        },
+        {
+          "type": "string",
+          "value": "E#"
+        },
+        {
+          "type": "string",
+          "value": "Fb"
+        },
+        {
+          "type": "string",
+          "value": "F"
+        },
+        {
+          "type": "string",
+          "value": "F#"
+        },
+        {
+          "type": "string",
+          "value": "Gb"
+        },
+        {
+          "type": "string",
+          "value": "G"
+        },
+        {
+          "type": "string",
+          "value": "G#"
+        },
+        {
+          "type": "string",
+          "value": "Ab"
+        },
+        {
+          "type": "string",
+          "value": "A"
+        },
+        {
+          "type": "string",
+          "value": "A#"
+        },
+        {
+          "type": "string",
+          "value": "Bb"
+        },
+        {
+          "type": "string",
+          "value": "B"
+        },
+        {
+          "type": "string",
+          "value": "B#"
+        }
+      ]
+    }
+  },
+  {
     "name": "lines",
     "type": "type",
     "value": {
@@ -609,6 +702,10 @@
               {
                 "type": "string",
                 "value": "7"
+              },
+              {
+                "type": "string",
+                "value": "-"
               }
             ]
           },
@@ -741,6 +838,13 @@
                 "value": "half-diminished"
               }
             ]
+          },
+          "optional": true
+        },
+        "hardStop": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
           },
           "optional": true
         }
@@ -910,6 +1014,10 @@
         {
           "type": "string",
           "value": "7"
+        },
+        {
+          "type": "string",
+          "value": "-"
         }
       ]
     }
@@ -1200,6 +1308,14 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "originalKey": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "originalKey"
         },
         "optional": true
       },

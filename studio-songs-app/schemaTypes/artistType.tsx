@@ -15,7 +15,7 @@ export const artistType = defineType({
 		defineField({
 			name: 'slug',
 			type: 'slug',
-			options: {source: 'name'},
+			options: {source: 'title'},
 			validation: (rule) => rule.required(),
 		}),
 		defineField({

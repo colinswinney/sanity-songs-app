@@ -8,6 +8,7 @@ import {
 	PiNumberFiveBold,
 	PiNumberSixBold,
 	PiNumberSevenBold,
+	PiNumberZeroBold,
 } from 'react-icons/pi'
 
 import { getDisplayFlatSharp } from "../helpers";
@@ -17,7 +18,7 @@ export const noteType = defineType({
 	name: 'note',
 	title: 'Note',
 	type: 'string',
-	initialValue: 'C',
+	initialValue: '1',
 	options: {
 		list: [
 			{title: '1', value: '1'},
@@ -27,6 +28,7 @@ export const noteType = defineType({
 			{title: '5', value: '5'},
 			{title: '6', value: '6'},
 			{title: '7', value: '7'},
+			{title: '-', value: '-'},
 		],
 	},
 });
@@ -97,31 +99,53 @@ export const chordType = defineType({
 			type: 'modifier',
 			name: 'modifier',
 		},
+		{
+			type: 'boolean',
+			name: 'hardStop',
+			initialValue: false,
+		},
 	],
-	preview:{
+	preview: {
 		select: {
 			note: 'note',
 			flatSharp: 'flatSharp',
 			modifier: 'modifier',
 		},
 		prepare({note, flatSharp, modifier}) {
-			let icon;
+			let icon
 			switch (note) {
-				case '1': icon = PiNumberOneBold; break;
-				case '2': icon = PiNumberTwoBold; break;
-				case '3': icon = PiNumberThreeBold; break;
-				case '4': icon = PiNumberFourBold; break;
-				case '5': icon = PiNumberFiveBold; break;
-				case '6': icon = PiNumberSixBold; break;
-				case '7': icon = PiNumberSevenBold; break;
+				case '1':
+					icon = PiNumberOneBold
+					break
+				case '2':
+					icon = PiNumberTwoBold
+					break
+				case '3':
+					icon = PiNumberThreeBold
+					break
+				case '4':
+					icon = PiNumberFourBold
+					break
+				case '5':
+					icon = PiNumberFiveBold
+					break
+				case '6':
+					icon = PiNumberSixBold
+					break
+				case '7':
+					icon = PiNumberSevenBold
+					break
+				case '-':
+					icon = PiNumberZeroBold
+					break
 			}
 			return {
 				title: `${getDisplayFlatSharp(flatSharp)} ${modifier}`,
 				media: icon,
 			}
 		},
-	}
-});
+	},
+})
 
 export const lineType = defineType({
 	name: 'line',
@@ -166,6 +190,38 @@ export const linesType = defineType({
 			type: 'line',
 		},
 	],
+})
+
+export const originalKeyType = defineType({
+	name: 'originalKey',
+	title: 'Original Key',
+	type: 'string',
+	initialValue: 'C',
+	options: {
+		list: [
+			{title: 'Cb', value: 'Cb'},
+			{title: 'C', value: 'C'},
+			{title: 'C#', value: 'C#'},
+			{title: 'Db', value: 'Db'},
+			{title: 'D', value: 'D'},
+			{title: 'D#', value: 'D#'},
+			{title: 'Eb', value: 'Eb'},
+			{title: 'E', value: 'E'},
+			{title: 'E#', value: 'E#'},
+			{title: 'Fb', value: 'Fb'},
+			{title: 'F', value: 'F'},
+			{title: 'F#', value: 'F#'},
+			{title: 'Gb', value: 'Gb'},
+			{title: 'G', value: 'G'},
+			{title: 'G#', value: 'G#'},
+			{title: 'Ab', value: 'Ab'},
+			{title: 'A', value: 'A'},
+			{title: 'A#', value: 'A#'},
+			{title: 'Bb', value: 'Bb'},
+			{title: 'B', value: 'B'},
+			{title: 'B#', value: 'B#'},
+		],
+	},
 })
 
 export const songType = defineType({
@@ -213,6 +269,10 @@ export const songType = defineType({
 			],
 		}),
 		defineField({
+			name: 'originalKey',
+			type: 'originalKey',
+		}),
+		defineField({
 			name: 'title',
 			type: 'string',
 			validation: (rule) => rule.required(),
@@ -237,10 +297,10 @@ export const songType = defineType({
 	preview: {
 		select: {
 			title: 'title',
-			artist0: 'artists.0.name',
-			artist1: 'artists.1.name',
-			artist2: 'artists.2.name',
-			artist3: 'artists.3.name',
+			artist0: 'artists.0.title',
+			artist1: 'artists.1.title',
+			artist2: 'artists.2.title',
+			artist3: 'artists.3.title',
 		},
 		prepare({title, artist0, artist1, artist2, artist3}) {
 			let subtitle = null
