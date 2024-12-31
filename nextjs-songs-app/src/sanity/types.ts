@@ -68,6 +68,8 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type OriginalKey = "Cb" | "C" | "C#" | "Db" | "D" | "D#" | "Eb" | "E" | "E#" | "Fb" | "F" | "F#" | "Gb" | "G" | "G#" | "Ab" | "A" | "A#" | "Bb" | "B" | "B#";
+
 export type Lines = Array<{
   _key: string;
 } & Line>;
@@ -99,16 +101,17 @@ export type Line = {
 
 export type Chord = {
   _type: "chord";
-  note?: "1" | "2" | "3" | "4" | "5" | "6" | "7";
+  note?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "-";
   flatSharp?: "" | "flat" | "sharp" | "doubleFlat" | "doubleSharp";
   modifier?: "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "augmented" | "diminished" | "half-diminished";
+  hardStop?: boolean;
 };
 
 export type Modifier = "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "augmented" | "diminished" | "half-diminished";
 
 export type FlatSharp = "" | "flat" | "sharp" | "doubleFlat" | "doubleSharp";
 
-export type Note = "1" | "2" | "3" | "4" | "5" | "6" | "7";
+export type Note = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "-";
 
 export type Song = {
   _id: string;
@@ -140,6 +143,7 @@ export type Song = {
     _type: "section";
     _key: string;
   }>;
+  originalKey?: OriginalKey;
   title?: string;
   slug?: Slug;
   artists?: Array<{
@@ -235,58 +239,34 @@ export type Slug = {
   source?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Lines | Line | Chord | Modifier | FlatSharp | Note | Song | Artist | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | OriginalKey | Lines | Line | Chord | Modifier | FlatSharp | Note | Song | Artist | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../nextjs-songs-app/src/app/page.tsx
 // Variable: HOME_SONG_QUERY
-// Query: *[	_type == "song"]{_id, title, slug}
+// Query: *[	_type == "song"] | order(title asc) {_id, title, slug}
 export type HOME_SONG_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
 }>;
 // Variable: HOME_ARTIST_QUERY
-// Query: *[	_type == "artist"]{_id, title, slug}
+// Query: *[	_type == "artist"] | order(title asc) {_id, title, slug}
 export type HOME_ARTIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
 }>;
 
-// Source: ../nextjs-songs-app/src/app/artists/[slug]/page.tsx
-// Variable: ARTIST_QUERY
-// Query: *[	_type == "artist" &&	slug.current == $slug	][0]{	...,	title}
-export type ARTIST_QUERYResult = {
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string | null;
-  slug?: Slug;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-} | null;
-
 // Source: ../nextjs-songs-app/src/app/songs/[slug]/page.tsx
 // Variable: SONG_QUERY
-// Query: *[	_type == "song" &&	slug.current == $slug	][0]{	...,	title}
+// Query: *[	_type == "song" &&	slug.current == $slug	][0]{	...,	title,	originalKey,	artists[]->{		slug,		title	},	sections}
 export type SONG_QUERYResult = {
   _id: string;
   _type: "song";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  sections?: Array<{
+  sections: Array<{
     title?: "bridge" | "chorus" | "intro" | "outro" | "pre-chorus" | "solo" | "verse";
     lines?: Lines;
     description?: Array<{
@@ -309,15 +289,41 @@ export type SONG_QUERYResult = {
     }>;
     _type: "section";
     _key: string;
-  }>;
+  }> | null;
+  originalKey: OriginalKey | null;
   title: string | null;
   slug?: Slug;
-  artists?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "artist";
+  artists: Array<{
+    slug: Slug | null;
+    title: string | null;
+  }> | null;
+} | null;
+
+// Source: ../nextjs-songs-app/src/app/artists/[slug]/page.tsx
+// Variable: ARTIST_QUERY
+// Query: *[	_type == "artist" &&	slug.current == $slug	][0]{	...,	title,	"songs": *[_type=='song' && references(^._id)]{ title, slug }}
+export type ARTIST_QUERYResult = {
+  _id: string;
+  _type: "artist";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string | null;
+  slug?: Slug;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  songs: Array<{
+    title: string | null;
+    slug: Slug | null;
   }>;
 } | null;
 
@@ -325,9 +331,9 @@ export type SONG_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[\n\t_type == \"song\"\n]{_id, title, slug}": HOME_SONG_QUERYResult;
-    "*[\n\t_type == \"artist\"\n]{_id, title, slug}": HOME_ARTIST_QUERYResult;
-    "*[\n\t_type == \"artist\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle\n}": ARTIST_QUERYResult;
-    "*[\n\t_type == \"song\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle\n}": SONG_QUERYResult;
+    "*[\n\t_type == \"song\"\n] | order(title asc) {_id, title, slug}": HOME_SONG_QUERYResult;
+    "*[\n\t_type == \"artist\"\n] | order(title asc) {_id, title, slug}": HOME_ARTIST_QUERYResult;
+    "*[\n\t_type == \"song\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\toriginalKey,\n\tartists[]->{\n\t\tslug,\n\t\ttitle\n\t},\n\tsections\n}": SONG_QUERYResult;
+    "*[\n\t_type == \"artist\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\t\"songs\": *[_type=='song' && references(^._id)]{ title, slug }\n}": ARTIST_QUERYResult;
   }
 }

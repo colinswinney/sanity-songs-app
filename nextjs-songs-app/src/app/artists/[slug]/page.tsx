@@ -3,13 +3,15 @@ import { defineQuery } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
+import { Slug } from "@/sanity/types";
 
 const ARTIST_QUERY = defineQuery(`*[
 	_type == "artist" &&
 	slug.current == $slug
 	][0]{
 	...,
-	title
+	title,
+	"songs": *[_type=='song' && references(^._id)]{ title, slug }
 }`);
 
 export async function generateMetadata({
@@ -27,6 +29,8 @@ export async function generateMetadata({
 	}
 
 	const { title } = artist;
+
+	console.log(artist);
 
 	return {
 		title: title + " | " + SITE_NAME,
@@ -47,14 +51,23 @@ export default async function ArtistPage({
 		notFound();
 	}
 
-	const { title } = artist;
+	const { title, songs } = artist;
 
 	return (
 		<main>
 			<div>
 				<Link href="/">Back to artists</Link>
 			</div>
-			{title ? <h1>{title}</h1> : null}
+			{title && <h1>{title}</h1>}
+			{songs && (
+				<ul>
+					{songs.map((song: { slug: Slug | null; title: string | null}) => (
+						<li key={song.slug?.current}>
+							<Link href={`/songs/${song.slug?.current}`}>{song.title}</Link>
+						</li>
+					))}
+				</ul>
+			)}
 		</main>
 	);
 }
