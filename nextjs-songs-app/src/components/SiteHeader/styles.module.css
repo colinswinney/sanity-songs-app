@@ -1,0 +1,8 @@
+.header ul {
+	column-gap: 16px;
+	display: flex;
+	justify-content: flex-end;
+	list-style: none;
+	padding: 0;
+	row-gap: 16px;
+}

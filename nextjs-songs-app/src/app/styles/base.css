@@ -12,5 +12,22 @@ body {
 	background: var(--c-background);
 	caret-color: currentcolor;
 	color: var(--c-foreground);
+	display: flex;
+	flex-direction: column;
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+body > header,
+body > main,
+body > footer {
+	inline-size: min(100%, 50rem);
+	margin-inline: auto;
+}
+
+body > main {
+	flex: 1;
+}
+
+body > footer {
+	text-align: center;
 }

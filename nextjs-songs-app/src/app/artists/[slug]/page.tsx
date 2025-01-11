@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug } from "@/sanity/types";
 
-const ARTIST_QUERY = defineQuery(`*[
+const ARTISTS_SLUG_PAGE_QUERY = defineQuery(`*[
 	_type == "artist" &&
 	slug.current == $slug
 	][0]{
@@ -20,7 +20,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: artist } = await sanityFetch({
-		query: ARTIST_QUERY,
+		query: ARTISTS_SLUG_PAGE_QUERY,
 		params: await params,
 	});
 
@@ -43,7 +43,7 @@ export default async function ArtistPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: artist } = await sanityFetch({
-		query: ARTIST_QUERY,
+		query: ARTISTS_SLUG_PAGE_QUERY,
 		params: await params,
 	});
 
@@ -54,9 +54,9 @@ export default async function ArtistPage({
 	const { title, songs } = artist;
 
 	return (
-		<main>
+		<>
 			<div>
-				<Link href="/">Back to artists</Link>
+				<Link href="/artists">Back to artists</Link>
 			</div>
 			{title && <h1>{title}</h1>}
 			{songs && (
@@ -68,6 +68,6 @@ export default async function ArtistPage({
 					))}
 				</ul>
 			)}
-		</main>
+		</>
 	);
 }

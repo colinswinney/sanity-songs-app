@@ -6,7 +6,7 @@ import { SITE_NAME } from "@/consts";
 import { Slug, Line } from "@/sanity/types";
 import { PortableText } from "@portabletext/react";
 
-const SONG_QUERY = defineQuery(`*[
+const SONGS_SLUG_PAGE_QUERY = defineQuery(`*[
 	_type == "song" &&
 	slug.current == $slug
 	][0]{
@@ -26,7 +26,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: song } = await sanityFetch({
-		query: SONG_QUERY,
+		query: SONGS_SLUG_PAGE_QUERY,
 		params: await params,
 	});
 
@@ -47,7 +47,7 @@ export default async function SongPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: song } = await sanityFetch({
-		query: SONG_QUERY,
+		query: SONGS_SLUG_PAGE_QUERY,
 		params: await params,
 	});
 	if (!song) {
@@ -62,9 +62,9 @@ export default async function SongPage({
 	console.log(sections);
 
 	return (
-		<main>
+		<>
 			<div>
-				<Link href="/">Back to songs</Link>
+				<Link href="/songs">Back to songs</Link>
 			</div>
 			{title && <h1>{title}</h1>}
 			{artists && (
@@ -92,7 +92,7 @@ export default async function SongPage({
 						_key: string;
 						title?: string;
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
-						description?: Array<any>; /* Block content */
+						description?: Array<any> /* Block content */;
 						lines?: Array<Line>;
 					}) => (
 						<div key={section._key}>
@@ -116,6 +116,6 @@ export default async function SongPage({
 						</div>
 					)
 				)}
-		</main>
+		</>
 	);
 }
