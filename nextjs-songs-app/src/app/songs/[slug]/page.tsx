@@ -91,7 +91,8 @@ export default async function SongPage({
 					(section: {
 						_key: string;
 						title?: string;
-						description?: Array<any>;
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						description?: Array<any>; /* Block content */
 						lines?: Array<Line>;
 					}) => (
 						<div key={section._key}>
