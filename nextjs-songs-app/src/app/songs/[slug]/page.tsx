@@ -47,8 +47,6 @@ export default async function SongPage({
 		artists
 	} = song;
 
-	console.log(sections);
-
 	return (
 		<>
 			<div>
@@ -80,7 +78,7 @@ export default async function SongPage({
 						_key: string;
 						title?: string;
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
-						description?: Array<any> /* Block content */;
+						description?: Array<any> /* @todo - Block content, how to type? */;
 						lines?: Array<Line>;
 					}) => (
 						<section className={styles.section} key={section._key}>
