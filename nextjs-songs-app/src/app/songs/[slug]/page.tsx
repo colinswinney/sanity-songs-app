@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug, Line } from "@/sanity/types";
 import { PortableText } from "@portabletext/react";
+import styles from "./styles.module.css";
+import Chord from "@/components/Chord";
 
 const SONGS_SLUG_PAGE_QUERY = defineQuery(`*[
 	_type == "song" &&
@@ -95,25 +97,23 @@ export default async function SongPage({
 						description?: Array<any> /* Block content */;
 						lines?: Array<Line>;
 					}) => (
-						<div key={section._key}>
+						<section className={styles.section} key={section._key}>
 							<h3>{section.title}</h3>
 							{section.description && (
 								<PortableText value={section.description} />
 							)}
-
 							{section.lines &&
 								section.lines.map((line: Line, index: number) => (
-									<div key={index}>
-										{(line.chords ?? [])
-											.map(
-												(chord) =>
-													`${chord?.note ?? ""} ${chord?.flatSharp ?? ""} ${chord?.modifier ?? ""}`
-											)
-											.join(" / ")}
+									<div className={styles.line} key={index}>
+										<div className={styles.chords}>
+											{(line.chords ?? []).map((chord) => (
+												<Chord chord={chord} key={chord._key} />
+											))}
+										</div>
 										{line.lyrics && <PortableText value={line.lyrics} />}
 									</div>
 								))}
-						</div>
+						</section>
 					)
 				)}
 		</>
