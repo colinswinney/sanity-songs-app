@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/live";
 import { Slug } from "@/sanity/types";
+import { SONG_LINK_LIST_QUERY, ARTIST_LINK_LIST_QUERY } from "@/sanity/queries";
 
 type SongOrArtist = {
 	_id: string;
@@ -9,20 +9,11 @@ type SongOrArtist = {
 	slug: Slug | null;
 };
 
-const HOMEPAGE_SONG_QUERY = defineQuery(`*[
-	_type == "song"
-] | order(title asc) {_id, title, slug}`);
-
-const HOMEPAGE_ARTIST_QUERY = defineQuery(`*[
-	_type == "artist"
-] | order(title asc) {_id, title, slug}`);
-
-
-
-
 export default async function IndexPage() {
-	const { data: songs } = await sanityFetch({ query: HOMEPAGE_SONG_QUERY });
-	const { data: artists } = await sanityFetch({ query: HOMEPAGE_ARTIST_QUERY });
+	const { data: songs } = await sanityFetch({ query: SONG_LINK_LIST_QUERY });
+	const { data: artists } = await sanityFetch({
+		query: ARTIST_LINK_LIST_QUERY,
+	});
 
 	return (
 		<>

@@ -1,5 +1,4 @@
 import { sanityFetch } from "@/sanity/live";
-import { defineQuery } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
@@ -7,20 +6,7 @@ import { Slug, Line } from "@/sanity/types";
 import { PortableText } from "@portabletext/react";
 import styles from "./styles.module.css";
 import Chord from "@/components/Chord";
-
-const SONGS_SLUG_PAGE_QUERY = defineQuery(`*[
-	_type == "song" &&
-	slug.current == $slug
-	][0]{
-	...,
-	title,
-	originalKey,
-	artists[]->{
-		slug,
-		title
-	},
-	sections
-}`);
+import { SONG_FULL_DISPLAY_QUERY } from "@/sanity/queries";
 
 export async function generateMetadata({
 	params,
@@ -28,7 +14,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: song } = await sanityFetch({
-		query: SONGS_SLUG_PAGE_QUERY,
+		query: SONG_FULL_DISPLAY_QUERY,
 		params: await params,
 	});
 
@@ -49,7 +35,7 @@ export default async function SongPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: song } = await sanityFetch({
-		query: SONGS_SLUG_PAGE_QUERY,
+		query: SONG_FULL_DISPLAY_QUERY,
 		params: await params,
 	});
 	if (!song) {

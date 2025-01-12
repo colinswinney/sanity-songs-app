@@ -1,18 +1,9 @@
 import { sanityFetch } from "@/sanity/live";
-import { defineQuery } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug } from "@/sanity/types";
-
-const ARTISTS_SLUG_PAGE_QUERY = defineQuery(`*[
-	_type == "artist" &&
-	slug.current == $slug
-	][0]{
-	...,
-	title,
-	"songs": *[_type=='song' && references(^._id)]{ title, slug }
-}`);
+import { ARTIST_FULL_DISPLAY_QUERY } from "@/sanity/queries";
 
 export async function generateMetadata({
 	params,
@@ -20,7 +11,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: artist } = await sanityFetch({
-		query: ARTISTS_SLUG_PAGE_QUERY,
+		query: ARTIST_FULL_DISPLAY_QUERY,
 		params: await params,
 	});
 
@@ -43,7 +34,7 @@ export default async function ArtistPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { data: artist } = await sanityFetch({
-		query: ARTISTS_SLUG_PAGE_QUERY,
+		query: ARTIST_FULL_DISPLAY_QUERY,
 		params: await params,
 	});
 
