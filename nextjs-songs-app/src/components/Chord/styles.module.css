@@ -1,0 +1,14 @@
+.chord {
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.chord__note {
+	font-size: 2rem;
+	font-weight: 900;
+}
+
+.chord__modifier {
+	vertical-align: top;
+}
