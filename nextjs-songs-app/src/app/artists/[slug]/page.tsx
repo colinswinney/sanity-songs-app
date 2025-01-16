@@ -21,8 +21,6 @@ export async function generateMetadata({
 
 	const { title } = artist;
 
-	console.log(artist);
-
 	return {
 		title: title + " | " + SITE_NAME,
 	};
