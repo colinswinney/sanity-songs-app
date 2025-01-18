@@ -1,8 +1,9 @@
 import { sanityFetch } from "@/sanity/live";
 import { Artist, Song } from "@/sanity/types";
 import { SONG_LINK_LIST_QUERY, ARTIST_LINK_LIST_QUERY } from "@/sanity/queries";
-import { Heading } from "@chakra-ui/react";
+import { List } from "@chakra-ui/react";
 import Link from "@/components/Link";
+import { H1, H2 } from "@/components/Heading";
 
 export default async function IndexPage() {
 	const { data: songs } = (await sanityFetch({
@@ -15,25 +16,25 @@ export default async function IndexPage() {
 
 	return (
 		<>
-			<Heading as="h1" size="4xl">Songs App</Heading>
-			<Heading as="h2" size="2xl">Songs</Heading>
-			<ul>
+			<H1>Songs App</H1>
+			<H2>Songs</H2>
+			<List.Root>
 				{songs.map((song) => (
-					<li key={song._id}>
+					<List.Item key={song._id}>
 						<Link href={`/songs/${song?.slug?.current}`}>{song?.title}</Link>
-					</li>
+					</List.Item>
 				))}
-			</ul>
-			<Heading as="h2">Artists</Heading>
-			<ul>
+			</List.Root>
+			<H2>Artists</H2>
+			<List.Root>
 				{artists.map((artist) => (
-					<li key={artist._id}>
+					<List.Item key={artist._id}>
 						<Link href={`/artists/${artist?.slug?.current}`}>
 							{artist?.title}
 						</Link>
-					</li>
+					</List.Item>
 				))}
-			</ul>
+			</List.Root>
 		</>
 	);
 }

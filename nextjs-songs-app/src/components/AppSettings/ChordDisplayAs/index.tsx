@@ -2,7 +2,8 @@
 
 import React from "react";
 import { AppSettingsType, useAppSettings } from "@/context";
-import styles from "./styles.module.css";
+import { Fieldset, VStack } from "@chakra-ui/react"
+import { Radio, RadioGroup } from "@/components/ui/radio";
 
 export default function ChordDisplayAs() {
 	const { state: { displayAs }, dispatch } = useAppSettings();
@@ -14,42 +15,20 @@ export default function ChordDisplayAs() {
 		};
 
 	return (
-		<fieldset className={styles.displayAsFieldset}>
-			<legend>Display as:</legend>
-			<label htmlFor="numbers">
-				<input
-					type="radio"
-					id="numbers"
-					name="display-as"
-					value="numbers"
-					checked={displayAs === "numbers"}
-					onChange={() => setDisplayAs("numbers")}
-				/>
-				Numbers
-			</label>
-			<label htmlFor="roman-numerals">
-				<input
-					type="radio"
-					id="roman-numerals"
-					name="display-as"
-					value="roman-numerals"
-					checked={displayAs === "roman-numerals"}
-					onChange={() => setDisplayAs("roman-numerals")}
-				/>
-				Roman Numerals
-			</label>
-
-			<label htmlFor="note-names">
-				<input
-					type="radio"
-					id="note-names"
-					name="display-as"
-					value="note-names"
-					checked={displayAs === "note-names"}
-					onChange={() => setDisplayAs("note-names")}
-				/>
-				Note Names
-			</label>
-		</fieldset>
+		<Fieldset.Root>
+			<Fieldset.Legend>Display as:</Fieldset.Legend>
+			<RadioGroup
+				value={displayAs}
+				onValueChange={(e) => {
+					setDisplayAs(e.value as "numbers" | "roman-numerals" | "note-names");
+				}}
+			>
+				<VStack alignItems="flex-start">
+					<Radio value="numbers">Numbers</Radio>
+					<Radio value="roman-numerals">Roman Numerals</Radio>
+					<Radio value="note-names">Note Names</Radio>
+				</VStack>
+			</RadioGroup>
+		</Fieldset.Root>
 	);
 }

@@ -2,6 +2,8 @@ import { sanityFetch } from "@/sanity/live";
 import { Song } from "@/sanity/types";
 import { SONG_LINK_LIST_QUERY } from "@/sanity/queries";
 import Link from "@/components/Link";
+import { H1 } from "@/components/Heading";
+import { List } from "@chakra-ui/react";
 
 export default async function SongPage() {
 	const { data: songs } = (await sanityFetch({
@@ -10,14 +12,14 @@ export default async function SongPage() {
 
 	return (
 		<>
-			<h1>Songs</h1>
-			<ul>
+			<H1>Songs</H1>
+			<List.Root>
 				{songs.map((song) => (
-					<li key={song._id}>
+					<List.Item key={song._id}>
 						<Link href={`/songs/${song?.slug?.current}`}>{song?.title}</Link>
-					</li>
+					</List.Item>
 				))}
-			</ul>
+			</List.Root>
 		</>
 	);
 }

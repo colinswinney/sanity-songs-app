@@ -4,6 +4,8 @@ import { SITE_NAME } from "@/consts";
 import { Slug } from "@/sanity/types";
 import { ARTIST_FULL_DISPLAY_QUERY } from "@/sanity/queries";
 import Link from "@/components/Link";
+import { H1 } from "@/components/Heading";
+import { List } from "@chakra-ui/react";
 
 export async function generateMetadata({
 	params,
@@ -44,18 +46,16 @@ export default async function ArtistPage({
 
 	return (
 		<>
-			<div>
-				<Link href="/artists">Back to artists</Link>
-			</div>
-			{title && <h1>{title}</h1>}
+			<Link href="/artists">Back to artists</Link>
+			{title && <H1>{title}</H1>}
 			{songs && (
-				<ul>
+				<List.Root>
 					{songs.map((song: { slug: Slug | null; title: string | null}) => (
-						<li key={song.slug?.current}>
+						<List.Item key={song.slug?.current}>
 							<Link href={`/songs/${song.slug?.current}`}>{song.title}</Link>
-						</li>
+						</List.Item>
 					))}
-				</ul>
+				</List.Root>
 			)}
 		</>
 	);

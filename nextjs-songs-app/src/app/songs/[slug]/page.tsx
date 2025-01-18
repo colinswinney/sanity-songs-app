@@ -6,8 +6,9 @@ import { PortableText } from "@portabletext/react";
 import Chord from "@/components/Chord";
 import { SONG_FULL_DISPLAY_QUERY } from "@/sanity/queries";
 import ChordDisplayAsRadioButtons from "@/components/AppSettings/ChordDisplayAs";
-import { Grid } from "@chakra-ui/react";
+import { Box, Grid, List } from "@chakra-ui/react";
 import Link from "@/components/Link";
+import { H1, H2, H3 } from "@/components/Heading";
 
 export async function generateMetadata({
 	params,
@@ -76,24 +77,22 @@ export default async function SongPage({
 
 	return (
 		<>
-			<div>
-				<Link href="/songs">Back to songs</Link>
-			</div>
-			{title && <h1>{title}</h1>}
+			<Link href="/songs">Back to songs</Link>
+			{title && <H1>{title}</H1>}
 			{artists && (
-				<ul>
+				<List.Root>
 					{artists.map(
 						(artist: { slug: Slug | null; title: string | null }) => (
-							<li key={artist.slug?.current}>
+							<List.Item key={artist.slug?.current}>
 								<Link href={`/artists/${artist.slug?.current}`}>
 									{artist.title}
 								</Link>
-							</li>
+							</List.Item>
 						)
 					)}
-				</ul>
+				</List.Root>
 			)}
-			<h2>Original Key: {song.originalKey}</h2>
+			<H2>Original Key: {song.originalKey}</H2>
 			<ChordDisplayAsRadioButtons />
 
 			{/* @todo - Conditionally display based on checkbox above, useState can't be in async () though. */}
@@ -110,7 +109,7 @@ export default async function SongPage({
 				))}
 			</select> */}
 
-			<h2>Song</h2>
+			<H2>Song</H2>
 			{sections &&
 				sections.map(
 					(section: {
@@ -120,14 +119,14 @@ export default async function SongPage({
 						description?: Array<any> /* @todo - Block content, how to type? */;
 						lines?: Array<Line>;
 					}) => (
-						<section key={section._key}>
-							<h3>{section.title}</h3>
+						<Box as="section" key={section._key}>
+							<H3>{section.title}</H3>
 							{section.description && (
 								<PortableText value={section.description} />
 							)}
 							{section.lines &&
 								section.lines.map((line: Line, index: number) => (
-									<Grid key={index} templateColumns="45fr 55fr" alignItems="center">
+									<Grid key={index} templateColumns="45fr 55fr" gap="16px" mb="16px">
 										<Grid
 											gap="1em"
 											templateColumns="repeat(auto-fill, minmax(6ch, 1fr))"
@@ -138,13 +137,13 @@ export default async function SongPage({
 											))}
 										</Grid>
 										{line.lyrics && (
-											<Grid>
+											<Grid alignSelf="center" fontSize="xl">
 												<PortableText value={line.lyrics} />
 											</Grid>
 										)}
 									</Grid>
 								))}
-						</section>
+						</Box>
 					)
 				)}
 		</>

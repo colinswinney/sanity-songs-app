@@ -2,6 +2,8 @@ import { sanityFetch } from "@/sanity/live";
 import { Artist } from "@/sanity/types";
 import { ARTIST_LINK_LIST_QUERY } from "@/sanity/queries";
 import Link from "@/components/Link";
+import { H1 } from "@/components/Heading";
+import { List } from "@chakra-ui/react";
 
 export default async function ArtistsPage() {
 	const { data: artists } = (await sanityFetch({
@@ -10,14 +12,14 @@ export default async function ArtistsPage() {
 
 	return (
 		<>
-			<h1>Artists</h1>
-			<ul>
+			<H1>Artists</H1>
+			<List.Root>
 				{artists.map((artist) => (
-					<li key={artist._id}>
+					<List.Item key={artist._id}>
 						<Link href={`/artists/${artist?.slug?.current}`}>{artist?.title}</Link>
-					</li>
+					</List.Item>
 				))}
-			</ul>
+			</List.Root>
 		</>
 	);
 }
