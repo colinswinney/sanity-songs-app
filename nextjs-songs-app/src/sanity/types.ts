@@ -103,11 +103,15 @@ export type Chord = {
   _type: "chord";
   note?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "-";
   flatSharp?: "" | "flat" | "sharp" | "doubleFlat" | "doubleSharp";
-  modifier?: "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "augmented" | "diminished" | "half-diminished";
+  modifier?: "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "dominant-seven-sharp-eleven" | "augmented" | "diminished" | "half-diminished";
   hardStop?: boolean;
+  splitChord?: boolean;
+  splitNote?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "-";
+  splitFlatSharp?: "" | "flat" | "sharp" | "doubleFlat" | "doubleSharp";
+  splitModifier?: "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "dominant-seven-sharp-eleven" | "augmented" | "diminished" | "half-diminished";
 };
 
-export type Modifier = "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "augmented" | "diminished" | "half-diminished";
+export type Modifier = "" | "major" | "major-six" | "major-six-nine" | "major-seven" | "major-nine" | "major-eleven" | "major-thirteen" | "suspended-two" | "suspended-four" | "minor" | "minor-six" | "minor-seven" | "minor-nine" | "minor-eleven" | "minor-thirteen" | "minor-major-seven" | "dominant-seven" | "dominant-nine" | "dominant-thirteen" | "dominant-seven-sharp-eleven" | "augmented" | "diminished" | "half-diminished";
 
 export type FlatSharp = "" | "flat" | "sharp" | "doubleFlat" | "doubleSharp";
 
@@ -241,26 +245,24 @@ export type Slug = {
 
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | OriginalKey | Lines | Line | Chord | Modifier | FlatSharp | Note | Song | Artist | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ../nextjs-songs-app/src/app/page.tsx
-// Variable: HOME_SONG_QUERY
+// Source: ../nextjs-songs-app/src/sanity/queries.tsx
+// Variable: SONG_LINK_LIST_QUERY
 // Query: *[	_type == "song"] | order(title asc) {_id, title, slug}
-export type HOME_SONG_QUERYResult = Array<{
+export type SONG_LINK_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
 }>;
-// Variable: HOME_ARTIST_QUERY
+// Variable: ARTIST_LINK_LIST_QUERY
 // Query: *[	_type == "artist"] | order(title asc) {_id, title, slug}
-export type HOME_ARTIST_QUERYResult = Array<{
+export type ARTIST_LINK_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
 }>;
-
-// Source: ../nextjs-songs-app/src/app/songs/[slug]/page.tsx
-// Variable: SONG_QUERY
+// Variable: SONG_FULL_DISPLAY_QUERY
 // Query: *[	_type == "song" &&	slug.current == $slug	][0]{	...,	title,	originalKey,	artists[]->{		slug,		title	},	sections}
-export type SONG_QUERYResult = {
+export type SONG_FULL_DISPLAY_QUERYResult = {
   _id: string;
   _type: "song";
   _createdAt: string;
@@ -298,11 +300,9 @@ export type SONG_QUERYResult = {
     title: string | null;
   }> | null;
 } | null;
-
-// Source: ../nextjs-songs-app/src/app/artists/[slug]/page.tsx
-// Variable: ARTIST_QUERY
+// Variable: ARTIST_FULL_DISPLAY_QUERY
 // Query: *[	_type == "artist" &&	slug.current == $slug	][0]{	...,	title,	"songs": *[_type=='song' && references(^._id)]{ title, slug }}
-export type ARTIST_QUERYResult = {
+export type ARTIST_FULL_DISPLAY_QUERYResult = {
   _id: string;
   _type: "artist";
   _createdAt: string;
@@ -331,9 +331,9 @@ export type ARTIST_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[\n\t_type == \"song\"\n] | order(title asc) {_id, title, slug}": HOME_SONG_QUERYResult;
-    "*[\n\t_type == \"artist\"\n] | order(title asc) {_id, title, slug}": HOME_ARTIST_QUERYResult;
-    "*[\n\t_type == \"song\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\toriginalKey,\n\tartists[]->{\n\t\tslug,\n\t\ttitle\n\t},\n\tsections\n}": SONG_QUERYResult;
-    "*[\n\t_type == \"artist\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\t\"songs\": *[_type=='song' && references(^._id)]{ title, slug }\n}": ARTIST_QUERYResult;
+    "*[\n\t_type == \"song\"\n] | order(title asc) {_id, title, slug}": SONG_LINK_LIST_QUERYResult;
+    "*[\n\t_type == \"artist\"\n] | order(title asc) {_id, title, slug}": ARTIST_LINK_LIST_QUERYResult;
+    "*[\n\t_type == \"song\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\toriginalKey,\n\tartists[]->{\n\t\tslug,\n\t\ttitle\n\t},\n\tsections\n}": SONG_FULL_DISPLAY_QUERYResult;
+    "*[\n\t_type == \"artist\" &&\n\tslug.current == $slug\n\t][0]{\n\t...,\n\ttitle,\n\t\"songs\": *[_type=='song' && references(^._id)]{ title, slug }\n}": ARTIST_FULL_DISPLAY_QUERYResult;
   }
 }

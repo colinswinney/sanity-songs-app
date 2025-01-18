@@ -827,6 +827,10 @@
               },
               {
                 "type": "string",
+                "value": "dominant-seven-sharp-eleven"
+              },
+              {
+                "type": "string",
                 "value": "augmented"
               },
               {
@@ -845,6 +849,188 @@
           "type": "objectAttribute",
           "value": {
             "type": "boolean"
+          },
+          "optional": true
+        },
+        "splitChord": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "splitNote": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "1"
+              },
+              {
+                "type": "string",
+                "value": "2"
+              },
+              {
+                "type": "string",
+                "value": "3"
+              },
+              {
+                "type": "string",
+                "value": "4"
+              },
+              {
+                "type": "string",
+                "value": "5"
+              },
+              {
+                "type": "string",
+                "value": "6"
+              },
+              {
+                "type": "string",
+                "value": "7"
+              },
+              {
+                "type": "string",
+                "value": "-"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "splitFlatSharp": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": ""
+              },
+              {
+                "type": "string",
+                "value": "flat"
+              },
+              {
+                "type": "string",
+                "value": "sharp"
+              },
+              {
+                "type": "string",
+                "value": "doubleFlat"
+              },
+              {
+                "type": "string",
+                "value": "doubleSharp"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "splitModifier": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": ""
+              },
+              {
+                "type": "string",
+                "value": "major"
+              },
+              {
+                "type": "string",
+                "value": "major-six"
+              },
+              {
+                "type": "string",
+                "value": "major-six-nine"
+              },
+              {
+                "type": "string",
+                "value": "major-seven"
+              },
+              {
+                "type": "string",
+                "value": "major-nine"
+              },
+              {
+                "type": "string",
+                "value": "major-eleven"
+              },
+              {
+                "type": "string",
+                "value": "major-thirteen"
+              },
+              {
+                "type": "string",
+                "value": "suspended-two"
+              },
+              {
+                "type": "string",
+                "value": "suspended-four"
+              },
+              {
+                "type": "string",
+                "value": "minor"
+              },
+              {
+                "type": "string",
+                "value": "minor-six"
+              },
+              {
+                "type": "string",
+                "value": "minor-seven"
+              },
+              {
+                "type": "string",
+                "value": "minor-nine"
+              },
+              {
+                "type": "string",
+                "value": "minor-eleven"
+              },
+              {
+                "type": "string",
+                "value": "minor-thirteen"
+              },
+              {
+                "type": "string",
+                "value": "minor-major-seven"
+              },
+              {
+                "type": "string",
+                "value": "dominant-seven"
+              },
+              {
+                "type": "string",
+                "value": "dominant-nine"
+              },
+              {
+                "type": "string",
+                "value": "dominant-thirteen"
+              },
+              {
+                "type": "string",
+                "value": "dominant-seven-sharp-eleven"
+              },
+              {
+                "type": "string",
+                "value": "augmented"
+              },
+              {
+                "type": "string",
+                "value": "diminished"
+              },
+              {
+                "type": "string",
+                "value": "half-diminished"
+              }
+            ]
           },
           "optional": true
         }
@@ -936,6 +1122,10 @@
         {
           "type": "string",
           "value": "dominant-thirteen"
+        },
+        {
+          "type": "string",
+          "value": "dominant-seven-sharp-eleven"
         },
         {
           "type": "string",

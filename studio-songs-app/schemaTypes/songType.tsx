@@ -13,7 +13,6 @@ import {
 
 import { getDisplayFlatSharp } from "../helpers";
 
-
 export const noteType = defineType({
 	name: 'note',
 	title: 'Note',
@@ -76,6 +75,7 @@ export const modifierType = defineType({
 			{title: '7', value: 'dominant-seven'},
 			{title: '9', value: 'dominant-nine'},
 			{title: '13', value: 'dominant-thirteen'},
+			{title: '7#11', value: 'dominant-seven-sharp-eleven'},
 			{title: '+', value: 'augmented'},
 			{title: '°', value: 'diminished'},
 			{title: 'ø', value: 'half-diminished'},
@@ -103,6 +103,26 @@ export const chordType = defineType({
 			type: 'boolean',
 			name: 'hardStop',
 			initialValue: false,
+		},
+		{
+			type: 'boolean',
+			name: 'splitChord',
+			initialValue: false,
+		},
+		{
+			name: 'splitNote',
+			type: 'note',
+			hidden: ({parent}) => !parent.splitChord,
+		},
+		{
+			name: 'splitFlatSharp',
+			type: 'flatSharp',
+			hidden: ({parent}) => !parent.splitChord,
+		},
+		{
+			name: 'splitModifier',
+			type: 'modifier',
+			hidden: ({parent}) => !parent.splitChord,
 		},
 	],
 	preview: {
@@ -173,10 +193,9 @@ export const lineType = defineType({
 			lyrics: 'lyrics',
 		},
 		prepare({chords, lyrics}) {
-			console.log({chords, lyrics})
 			return {
 				title: lyrics !== undefined && lyrics[0] ? lyrics[0].children[0].text : ' ',
-				subtitle: chords.map((chord: { note: string, flatSharp: string, modifier: string }) => `${chord.note} ${chord.flatSharp} ${chord.modifier}`).join(' / '),
+				subtitle: chords.map((chord: { note: string, flatSharp: string, modifier: string }) => `${chord.note} ${chord.flatSharp} ${chord.modifier}`).join(' '),
 			}
 		},
 	},
@@ -265,6 +284,24 @@ export const songType = defineType({
 							of: [{type: 'block'}],
 						},
 					],
+					preview: {
+						select: {
+							title: 'title',
+							lines: 'lines',
+						},
+						prepare({title, lines}) {
+							const previewTitle = title.charAt(0).toUpperCase() + title.slice(1);
+							let previewLines = '';
+							if (lines !== undefined && lines[0].lyrics) {
+								previewLines = lines[0].lyrics[0].children[0].text;
+								previewLines = previewLines.length > 20 ? previewLines.substring(0, 50) + '...' : previewLines;
+							}
+							return {
+								title: previewTitle,
+								subtitle: previewLines,
+							}
+						},
+					},
 				},
 			],
 		}),

@@ -8,106 +8,105 @@ export default function Chord({ chord }: { chord: ChordType }) {
 	const flatSharp = chord.flatSharp;
 	const modifier = chord.modifier;
 
-	let fs = "";
-	if (flatSharp) {
+	const splitChord = chord.splitChord;
+	const splitNote = chord.splitNote;
+	const splitFlatSharp = chord.splitFlatSharp;
+	const splitModifier = chord.splitModifier;
+
+	const handleFlatSharp = (flatSharp: string | undefined) => {
+
+		if (!flatSharp) {
+			return "";
+		}
+
 		switch (flatSharp) {
 			case "flat":
-				fs = "♭";
-				break;
+				return "♭";
 			case "sharp":
-				fs = "♯";
-				break;
+				return "♯";
 			case "doubleFlat":
-				fs = "♭♭";
-				break;
+				return "♭♭";
 			case "doubleSharp":
-				fs = "♯♯";
-				break;
+				return "♯♯";
 			default:
-				fs = "";
-				break;
 		}
-	}
+	};
 
-	let mod = "";
-	if (modifier) {
+
+	const handleModifier = (modifier: string | undefined) => {
+
+		if (!modifier) {
+			return "";
+		}
+
 		switch (modifier) {
 			case "major":
-				mod = "M";
-				break;
+				return "M";
 			case "major-six":
-				mod = "6";
-				break;
+				return "6";
 			case "major-six-nine":
-				mod = "6/9";
-				break;
+				return "6/9";
 			case "major-seven":
-				mod = "Δ";
-				break;
+				return "Δ";
 			case "major-nine":
-				mod = "Maj9";
-				break;
+				return "Maj9";
 			case "major-eleven":
-				mod = "Maj11";
-				break;
+				return "Maj11";
 			case "major-thirteen":
-				mod = "Maj13";
-				break;
+				return "Maj13";
 			case "suspended-two":
-				mod = "sus2";
-				break;
+				return "sus2";
 			case "suspended-four":
-				mod = "sus4";
-				break;
+				return "sus4";
 			case "minor":
-				mod = "m";
-				break;
+				return "m";
 			case "minor-six":
-				mod = "m6";
-				break;
+				return "m6";
 			case "minor-seven":
-				mod = "m7";
-				break;
+				return "m7";
 			case "minor-nine":
-				mod = "m9";
-				break;
+				return "m9";
 			case "minor-eleven":
-				mod = "m11";
-				break;
+				return "m11";
 			case "minor-thirteen":
-				mod = "m13";
-				break;
+				return "m13";
 			case "minor-major-seven":
-				mod = "mΔ";
-				break;
+				return "mΔ";
 			case "dominant-seven":
-				mod = "7";
-				break;
+				return "7";
 			case "dominant-nine":
-				mod = "9";
-				break;
+				return "9";
 			case "dominant-thirteen":
-				mod = "13";
-				break;
+				return "13";
 			case "augmented":
-				mod = "+";
-				break;
+				return "+";
 			case "diminished":
-				mod = "°";
-				break;
+				return "°";
 			case "half-diminished":
-				mod = "ø";
-				break;
+				return "ø";
 			default:
-				mod = "";
 		}
 	}
 
 	return (
 		<div className={styles.chord}>
 			<span className={styles.chord__note}>{note}</span>
-			<span className={styles.chord__flatSharp}>{fs}</span>
-			<sup className={styles.chord__modifier}>{mod}</sup>
+			<span className={styles.chord__flatSharp}>
+				{handleFlatSharp(flatSharp)}
+			</span>
+			<sup className={styles.chord__modifier}>{handleModifier(modifier)}</sup>
+			{splitChord && (
+				<>
+
+					<span className={styles.chord__note}>/{splitNote}</span>
+					<span className={styles.chord__flatSharp}>
+						{handleFlatSharp(splitFlatSharp)}
+					</span>
+					<sup className={styles.chord__modifier}>
+						{handleModifier(splitModifier)}
+					</sup>
+				</>
+			)}
 		</div>
 	);
 }
