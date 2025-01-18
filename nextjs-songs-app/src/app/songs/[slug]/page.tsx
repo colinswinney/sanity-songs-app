@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug, Line } from "@/sanity/types";
 import { PortableText } from "@portabletext/react";
-import styles from "./styles.module.css";
 import Chord from "@/components/Chord";
 import { SONG_FULL_DISPLAY_QUERY } from "@/sanity/queries";
+import ChordDisplayAsRadioButtons from "@/components/AppSettings/ChordDisplayAs";
+
+import styles from "./styles.module.css";
 
 export async function generateMetadata({
 	params,
@@ -38,14 +40,40 @@ export default async function SongPage({
 		query: SONG_FULL_DISPLAY_QUERY,
 		params: await params,
 	});
+
 	if (!song) {
 		notFound();
 	}
+
 	const {
 		title,
 		sections,
 		artists
 	} = song;
+
+	// const originalKeys: OriginalKey[] = [
+	// 	"Cb",
+	// 	"C",
+	// 	"C#",
+	// 	"Db",
+	// 	"D",
+	// 	"D#",
+	// 	"Eb",
+	// 	"E",
+	// 	"E#",
+	// 	"Fb",
+	// 	"F",
+	// 	"F#",
+	// 	"Gb",
+	// 	"G",
+	// 	"G#",
+	// 	"Ab",
+	// 	"A",
+	// 	"A#",
+	// 	"Bb",
+	// 	"B",
+	// 	"B#",
+	// ];
 
 	return (
 		<>
@@ -67,9 +95,21 @@ export default async function SongPage({
 				</ul>
 			)}
 			<h2>Original Key: {song.originalKey}</h2>
-			<select>
-				<option value="">@todo This needs to be populated.</option>
-			</select>
+			<ChordDisplayAsRadioButtons />
+
+			{/* @todo - Conditionally display based on checkbox above, useState can't be in async () though. */}
+			{/* <label htmlFor="originalKey">Change Key</label>
+			<select
+				className={styles.originalKey}
+				name="originalKey"
+				id="originalKey"
+			>
+				{originalKeys.map((key) => (
+					<option key={key} value={key}>
+						{key}
+					</option>
+				))}
+			</select> */}
 
 			<h2>Song</h2>
 			{sections &&

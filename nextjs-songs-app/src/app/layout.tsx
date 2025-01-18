@@ -6,6 +6,8 @@ import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import SiteMain from "@/components/SiteMain";
 
+import { AppSettingsProvider } from "@/context";
+
 export const metadata: Metadata = {
 	title: SITE_NAME,
 	description: SITE_DESCRIPTION,
@@ -19,12 +21,14 @@ export default function RootLayout({
   return (
 		<html lang="en">
 			<body>
-				<SiteHeader />
-				<SiteMain>
-					{children}
-				</SiteMain>
-				<SiteFooter />
-				<SanityLive />
+				<AppSettingsProvider>
+					<SiteHeader />
+					<SiteMain>
+						{children}
+					</SiteMain>
+					<SiteFooter />
+					<SanityLive />
+				</AppSettingsProvider>
 			</body>
 		</html>
 	);
