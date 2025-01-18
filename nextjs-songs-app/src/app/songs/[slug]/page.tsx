@@ -119,8 +119,8 @@ export default async function SongPage({
 						description?: Array<any> /* @todo - Block content, how to type? */;
 						lines?: Array<Line>;
 					}) => (
-						<Box as="section" key={section._key}>
-							<H3>{section.title}</H3>
+						<Box as="section" key={section._key} aria-labelledby={section._key}>
+							<H3 id={section._key}>{section.title}</H3>
 							{section.description && (
 								<PortableText value={section.description} />
 							)}
