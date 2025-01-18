@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { sanityFetch } from "@/sanity/live";
 import { Song } from "@/sanity/types";
 import { SONG_LINK_LIST_QUERY } from "@/sanity/queries";
+import Link from "@/components/Link";
 
 export default async function SongPage() {
 	const { data: songs } = (await sanityFetch({

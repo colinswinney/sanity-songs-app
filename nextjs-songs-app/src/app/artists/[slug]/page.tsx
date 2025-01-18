@@ -1,9 +1,9 @@
 import { sanityFetch } from "@/sanity/live";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug } from "@/sanity/types";
 import { ARTIST_FULL_DISPLAY_QUERY } from "@/sanity/queries";
+import Link from "@/components/Link";
 
 export async function generateMetadata({
 	params,

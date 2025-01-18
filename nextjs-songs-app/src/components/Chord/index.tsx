@@ -1,6 +1,5 @@
 import { Chord as ChordType } from "@/sanity/types";
-
-import styles from "./styles.module.css";
+import { Text } from "@chakra-ui/react";
 
 export default function Chord({ chord }: { chord: ChordType }) {
 
@@ -89,24 +88,34 @@ export default function Chord({ chord }: { chord: ChordType }) {
 	}
 
 	return (
-		<div className={styles.chord}>
-			<span className={styles.chord__note}>{note}</span>
-			<span className={styles.chord__flatSharp}>
-				{handleFlatSharp(flatSharp)}
-			</span>
-			<sup className={styles.chord__modifier}>{handleModifier(modifier)}</sup>
+		<Text as="span" lineHeight={1} textStyle="2xl">
+			<Text as="span" textStyle="4xl" fontWeight="700">
+				{note}
+			</Text>
+			{flatSharp && <Text as="span">{handleFlatSharp(flatSharp)}</Text>}
+			{modifier && (
+				<Text as="sup" verticalAlign="super">
+					{handleModifier(modifier)}
+				</Text>
+			)}
 			{splitChord && (
 				<>
-
-					<span className={styles.chord__note}>/{splitNote}</span>
-					<span className={styles.chord__flatSharp}>
-						{handleFlatSharp(splitFlatSharp)}
-					</span>
-					<sup className={styles.chord__modifier}>
-						{handleModifier(splitModifier)}
-					</sup>
+					<Text as="span" textStyle="4xl" fontWeight="700">
+						<Text as="span" fontWeight="200">
+							/
+						</Text>
+						{splitNote}
+					</Text>
+					{splitFlatSharp && (
+						<Text as="span">{handleFlatSharp(splitFlatSharp)}</Text>
+					)}
+					{splitModifier && (
+						<Text as="sup" verticalAlign="super">
+							{handleModifier(splitModifier)}
+						</Text>
+					)}
 				</>
 			)}
-		</div>
+		</Text>
 	);
 }

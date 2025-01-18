@@ -1,5 +1,4 @@
 import { sanityFetch } from "@/sanity/live";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SITE_NAME } from "@/consts";
 import { Slug, Line } from "@/sanity/types";
@@ -7,8 +6,8 @@ import { PortableText } from "@portabletext/react";
 import Chord from "@/components/Chord";
 import { SONG_FULL_DISPLAY_QUERY } from "@/sanity/queries";
 import ChordDisplayAsRadioButtons from "@/components/AppSettings/ChordDisplayAs";
-
-import styles from "./styles.module.css";
+import { Grid } from "@chakra-ui/react";
+import Link from "@/components/Link";
 
 export async function generateMetadata({
 	params,
@@ -121,21 +120,29 @@ export default async function SongPage({
 						description?: Array<any> /* @todo - Block content, how to type? */;
 						lines?: Array<Line>;
 					}) => (
-						<section className={styles.section} key={section._key}>
+						<section key={section._key}>
 							<h3>{section.title}</h3>
 							{section.description && (
 								<PortableText value={section.description} />
 							)}
 							{section.lines &&
 								section.lines.map((line: Line, index: number) => (
-									<div className={styles.line} key={index}>
-										<div className={styles.chords}>
+									<Grid key={index} templateColumns="45fr 55fr" alignItems="center">
+										<Grid
+											gap="1em"
+											templateColumns="repeat(auto-fill, minmax(6ch, 1fr))"
+											as="p"
+										>
 											{(line.chords ?? []).map((chord) => (
 												<Chord chord={chord} key={chord._key} />
 											))}
-										</div>
-										{line.lyrics && <PortableText value={line.lyrics} />}
-									</div>
+										</Grid>
+										{line.lyrics && (
+											<Grid>
+												<PortableText value={line.lyrics} />
+											</Grid>
+										)}
+									</Grid>
 								))}
 						</section>
 					)

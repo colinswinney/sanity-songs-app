@@ -1,9 +1,14 @@
-export default function Footer() {
+import { Box } from "@chakra-ui/react";
+import SiteContainer from "../SiteContainer";
+
+export default function SiteFooter() {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer>
-			<p>&copy; {currentYear}</p>
-		</footer>
+		<Box as="footer" py="4" textAlign="center">
+			<SiteContainer>
+				<p>&copy; {currentYear}</p>
+			</SiteContainer>
+		</Box>
 	);
 }
