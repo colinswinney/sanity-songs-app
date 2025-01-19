@@ -23,7 +23,7 @@ export default function RootLayout({
 			<body>
 				<ChakraProvider>
 					<AppSettingsProvider>
-						<Flex direction="column" minH="100vh">
+						<Flex direction="column" minH="100vh" fontFamily="body">
 							<SiteHeader />
 							<SiteMain flex="1">{children}</SiteMain>
 							<SiteFooter />

@@ -88,7 +88,7 @@ export default function Chord({ chord }: { chord: ChordType }) {
 	}
 
 	return (
-		<Text as="span" lineHeight={1} textStyle="2xl">
+		<Text as="span" lineHeight="1" textStyle="2xl" whiteSpace="nowrap">
 			<Text as="span" textStyle="4xl" fontWeight="700">
 				{note}
 			</Text>

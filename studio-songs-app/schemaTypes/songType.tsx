@@ -130,6 +130,10 @@ export const chordType = defineType({
 			note: 'note',
 			flatSharp: 'flatSharp',
 			modifier: 'modifier',
+			splitChord: 'splitChord',
+			splitNote: 'splitNote',
+			splitFlatSharp: 'splitFlatSharp',
+			splitModifier: 'splitModifier',
 		},
 		prepare({note, flatSharp, modifier}) {
 			let icon

@@ -1,4 +1,9 @@
 import { createSystem, defineConfig, defaultConfig } from "@chakra-ui/react";
+import { Aleo as PrimaryFontFamily } from "next/font/google";
+
+const primaryFont = PrimaryFontFamily({
+	subsets: ["latin"],
+});
 
 const config = defineConfig({
 	theme: {
@@ -11,13 +16,13 @@ const config = defineConfig({
 				},
 				bg: {
 					DEFAULT: {
-						value: { _light: "{colors.white}", _dark: "{colors.gray.900}" },
+						value: { _light: "#fafbfc", _dark: "{colors.gray.900}" },
 					},
 					subtle: {
-						value: { _light: "{colors.gray.50}", _dark: "{colors.gray.800}" },
+						value: { _light: "{colors.gray.100}", _dark: "{colors.gray.800}" },
 					},
 					muted: {
-						value: { _light: "{colors.gray.100}", _dark: "{colors.gray.700}" },
+						value: { _light: "{colors.gray.500}", _dark: "{colors.gray.600}" },
 					},
 				},
 				fg: {
@@ -33,6 +38,10 @@ const config = defineConfig({
 						value: { _light: "{colors.gray.200}", _dark: "{colors.gray.700}" },
 					},
 				},
+			},
+			fonts: {
+				body: { value: primaryFont.style.fontFamily },
+				heading: { value: primaryFont.style.fontFamily },
 			},
 		},
 	},

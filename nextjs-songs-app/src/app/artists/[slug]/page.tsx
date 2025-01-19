@@ -46,7 +46,6 @@ export default async function ArtistPage({
 
 	return (
 		<>
-			<Link href="/artists">Back to artists</Link>
 			{title && <H1>{title}</H1>}
 			{songs && (
 				<List.Root>

@@ -1,11 +1,25 @@
 "use client";
 
-import { ClientOnly, IconButton, Skeleton } from "@chakra-ui/react";
-import { LuMoon, LuSun } from "react-icons/lu";
+import { IconButton } from "@chakra-ui/react";
+import { LuMoon, LuSun, LuSettings } from "react-icons/lu";
 import { useColorMode } from "@/components/ui/color-mode";
 import { Box, Flex, List } from "@chakra-ui/react";
 import Link from "@/components/Link";
 import SiteContainer from "@/components/SiteContainer";
+import ChordDisplayAs from "@/components/AppSettings";
+
+import { Button } from "@/components/ui/button";
+import {
+	DrawerBackdrop,
+	DrawerBody,
+	DrawerCloseTrigger,
+	DrawerContent,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerRoot,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 
 export default function Header() {
 	const { toggleColorMode, colorMode } = useColorMode();
@@ -27,18 +41,47 @@ export default function Header() {
 							</List.Item>
 						</List.Root>
 					</Box>
-					<ClientOnly fallback={<Skeleton boxSize="8" />}>
+					<Flex gap={2}>
 						<IconButton
 							onClick={toggleColorMode}
-							variant="plain"
+							variant="outline"
 							size="md"
 							aria-label="Toggle color mode"
 							color="primary"
 							rounded="full"
+							_hover={{ borderColor: "primary" }}
 						>
 							{colorMode === "light" ? <LuSun /> : <LuMoon />}
 						</IconButton>
-					</ClientOnly>
+
+						<DrawerRoot size="sm">
+							<DrawerBackdrop />
+							<DrawerTrigger asChild>
+								<IconButton
+									variant="outline"
+									size="md"
+									aria-label="Open Settings Menu"
+									color="primary"
+									rounded="full"
+									_hover={{ borderColor: "primary" }}
+								>
+									<LuSettings />
+								</IconButton>
+							</DrawerTrigger>
+							<DrawerContent>
+								<DrawerHeader>
+									<DrawerTitle>Settings</DrawerTitle>
+								</DrawerHeader>
+								<DrawerBody>
+									<ChordDisplayAs />
+								</DrawerBody>
+								<DrawerFooter>
+									<Button>Save</Button>
+								</DrawerFooter>
+								<DrawerCloseTrigger />
+							</DrawerContent>
+						</DrawerRoot>
+					</Flex>
 				</Flex>
 			</SiteContainer>
 		</Box>

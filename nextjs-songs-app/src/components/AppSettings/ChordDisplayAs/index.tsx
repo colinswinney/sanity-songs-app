@@ -16,17 +16,24 @@ export default function ChordDisplayAs() {
 
 	return (
 		<Fieldset.Root>
-			<Fieldset.Legend>Display as:</Fieldset.Legend>
+			<Fieldset.Legend>Display chords as:</Fieldset.Legend>
 			<RadioGroup
+				colorPalette={"pink"}
 				value={displayAs}
 				onValueChange={(e) => {
 					setDisplayAs(e.value as "numbers" | "roman-numerals" | "note-names");
 				}}
 			>
 				<VStack alignItems="flex-start">
-					<Radio value="numbers">Numbers</Radio>
-					<Radio value="roman-numerals">Roman Numerals</Radio>
-					<Radio value="note-names">Note Names</Radio>
+					<Radio accentColor="colors.primary" value="numbers">
+						Numbers
+					</Radio>
+					<Radio accentColor="colors.primary" value="roman-numerals">
+						Roman Numerals
+					</Radio>
+					<Radio accentColor="primary" value="note-names">
+						Note Names
+					</Radio>
 				</VStack>
 			</RadioGroup>
 		</Fieldset.Root>
